@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script src="polyfill.js"></script>
+<script>
+  var promise = new Promiser(function (resolve){
+    resolve(42)
+  })
+
+  promise
+    .then(function (value) {
+      return value + 1
+    })
+    .then(function (value) {
+      console.log(value) // 42
+      return new Promise(function (resolve) { resolve(137) })
+    })
+    .then(function (value) {
+      console.log(value) // 137
+      throw new Error()
+    })
+    .then(
+      function () { console.log('Будет проигнорировано') },
+      function () { return 'ошибка обработана' }
+    )
+    .then(function (value) {
+      console.log(value) // "ошибка обработана"
+    })
+</script>
+</body>
+</html>
